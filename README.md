@@ -1,16 +1,16 @@
-# openwrt-onecloud-玩客云
+# 玩客云openwrt自动编译
 
-- 登录地址:
-  - 10.0.0.2
-  - 密码:空
+集合常用插件，不定期编译。
 
-- 系统内核:
-  - [✔] TCP 开启BBR
+## 使用方法
 
-- 刷机工具:
-  - [下载](https://xd1314.lanzoul.com/iXHbz17bqjhc)
+文件名包含burn的为线刷固件，解压后使用[Amlogic_USB_Burning_Tool](https://androiddatahost.com/khfj4)烧录。\
+红灯闪是在启动中，启动完成后蓝灯常亮。首次启动时间可能会长一些(两分钟左右)。
 
+- 登录ip: 192.168.5.254
+- 用户名: root
+- 密码: 空
 
-- 相关引导:
-
-  - [`u-boot`](https://github.com/hzyitc/u-boot-onecloud)
+## 感谢
+- 打包脚本改自 https://github.com/lxiaya/openwrt-onecloud
+- 所有为openwrt做出贡献的人
