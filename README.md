@@ -10,7 +10,3 @@
 - 登录ip: 192.168.5.254
 - 用户名: root
 - 密码: 空
-
-## 感谢
-- 打包脚本改自 https://github.com/lxiaya/openwrt-onecloud
-- 所有为openwrt做出贡献的人
