@@ -10,20 +10,6 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
-# 修改默认 IP
-sed -i 's/192.168.1.1/192.168.5.254/g' package/base-files/files/bin/config_generate
-#sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
-
-# 修改默认主题
-#sed -i 's/luci-theme-bootstrap/luci-theme-material/g' feeds/luci/collections/luci-light/Makefile
-
-# 修改主机名
-sed -i "s/hostname='.*'/hostname='OneCloud'/g" package/base-files/files/bin/config_generate
-
-# 修改默认时区
-sed -i "s/timezone='.*'/timezone='CST-8'/g" package/base-files/files/bin/config_generate
-sed -i "/.*timezone='CST-8'.*/a\ set system.@system[-1].zonename='Asia/Shanghai'" package/base-files/files/bin/config_generate
-
 # 删除自带的 golang
 rm -rf feeds/packages/lang/golang
 # 拉取新的 golang
@@ -56,7 +42,7 @@ git clone https://github.com/sbwml/luci-app-mentohust.git package/chajian/mentoh
 # 删除自带的 open-app-filter
 rm -rf feeds/packages/net/open-app-filter
 rm -rf package/feeds/packages/open-app-filter
-# 拉取 OpenAppFilter、luci-app-oaf
+# 拉取新的 OpenAppFilter、luci-app-oaf
 git clone https://github.com/destan19/OpenAppFilter.git package/chajian/OpenAppFilter
 
 # 拉取 luci-app-socat
@@ -67,9 +53,24 @@ sed -i '/\/etc\/init\.d\/tailscale/d;/\/etc\/config\/tailscale/d;' feeds/package
 # 拉取 luci-app-tailscale
 git clone https://github.com/asvow/luci-app-tailscale.git package/chajian/tailscale/luci-app-tailscale
 
-# 筛选提取应用
+# 删除自带的 luci-theme-argon
+rm -rf feeds/luci/themes/luci-theme-argon
+rm -rf package/feeds/luci/luci-theme-argon
+# 删除自带的 luci-app-argon-config
+rm -rf feeds/luci/applications/luci-app-argon-config
+rm -rf package/feeds/luci/luci-app-argon-config
+# 拉取新的 luci-theme-argon
+#git clone https://github.com/jerrykuku/luci-theme-argon.git -b master package/chajian/argon/luci-theme-argon
+# 拉取新的 luci-app-argon-config
+#git clone https://github.com/jerrykuku/luci-app-argon-config.git -b master package/chajian/argon/luci-app-argon-config
+# 拉取新的 luci-theme-argon、luci-app-argon-config
+git clone https://github.com/sbwml/luci-theme-argon.git -b openwrt-24.10 package/chajian/argon
+
+# 特殊的替换配置
 ## 删除自带的 vlmcsd
 rm -rf feeds/packages/net/vlmcsd
+## 删除自带的 luci-app-hd-idle
+rm -rf feeds/luci/applications/luci-app-hd-idle
 ## 删除自带的 luci-app-softethervpn
 rm -rf feeds/luci/applications/luci-app-softethervpn
 ## 删除自带的 luci-app-vlmcsd
@@ -99,7 +100,23 @@ merge_package openwrt-24.10 https://github.com/immortalwrt/immortalwrt.git packa
 merge_package openwrt-24.10 https://github.com/immortalwrt/immortalwrt.git package/network/utils package/network/utils/fullconenat-nft
 ## 提取 vlmcsd
 merge_package main https://github.com/Lienol/openwrt-package.git feeds/packages/net other/lean/vlmcsd
+## 提取 luci-app-hd-idle
+merge_package openwrt-24.10 https://github.com/openwrt/luci.git feeds/luci/applications applications/luci-app-hd-idle
 ## 提取 luci-app-softethervpn
 merge_package main https://github.com/Lienol/openwrt-package.git feeds/luci/applications luci-app-softethervpn
 ## 提取 luci-app-vlmcsd
 merge_package main https://github.com/Lienol/openwrt-package.git feeds/luci/applications other/lean/luci-app-vlmcsd
+
+# 修改默认 IP
+sed -i 's/192.168.1.1/192.168.5.254/g' package/base-files/files/bin/config_generate
+#sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+
+# 修改默认主题
+sed -i 's/luci-theme-bootstrap/luci-theme-material/g' feeds/luci/collections/luci-light/Makefile
+
+# 修改主机名
+sed -i "s/hostname='.*'/hostname='OneCloud'/g" package/base-files/files/bin/config_generate
+
+# 修改默认时区
+sed -i "s/timezone='.*'/timezone='CST-8'/g" package/base-files/files/bin/config_generate
+sed -i "/.*timezone='CST-8'.*/a\ set system.@system[-1].zonename='Asia/Shanghai'" package/base-files/files/bin/config_generate
